@@ -1,0 +1,49 @@
+---
+const rows = [
+  {
+    cols: '62fr 38fr',
+    items: [
+      { src: '/assets/Festival.png', alt: 'Music festival', tag: 'Festival 2026' },
+      { src: '/assets/Night-Club.png',  alt: 'DJ in booth',        tag: 'Club Night' },
+    ]
+  },
+  {
+    cols: '1fr 1fr 1fr',
+    items: [
+      { src: '/assets/Private-Event.png', alt: 'Stage lights',    tag: 'Private Concert' },
+      { src: '/assets/Corporate-Event.png', alt: 'Corporate event', tag: 'Corporate Party' },
+      { src: '/assets/Wedding.png', alt: 'Wedding crowd', tag: 'Luxury Wedding' },
+    ]
+  },
+  {
+    cols: '38fr 62fr',
+    items: [
+      { src: '/assets/Quinceanera.png',  alt: 'Sound console',  tag: 'Quinceanera' },
+    ]
+  },
+];
+---
+<section class="gallery" id="galeria">
+  <div class="container">
+    <div class="gallery-head">
+      <div>
+        <p class="label" style="margin-bottom:.8rem">Proyectos</p>
+        <h2 class="section-title">Nuestra <i>Galería</i></h2>
+      </div>
+      <p class="gallery-head-right">Cada evento cuenta su propia historia. Aquí algunos de nuestros momentos favoritos.</p>
+    </div>
+    <div class="gallery-stack">
+    {rows.map(row => (
+      <div class="g-row" style={`grid-template-columns:${row.cols}`}>
+        {row.items.map(item => (
+          <div class="g-item">
+            <img src={item.src} alt={item.alt} />
+            <div class="g-overlay"></div>
+            <span class="g-tag">{item.tag}</span>
+          </div>
+        ))}
+      </div>
+    ))}
+    </div>
+  </div>
+</section>

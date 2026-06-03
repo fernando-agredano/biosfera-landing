@@ -1,0 +1,31 @@
+---
+const items = [
+  { img: '/assets/Arsenal-1.png', name: 'Allen & Heath SQ-7',    desc: 'Consola de mezcla digital de 96 canales con efectos integrados, control remoto y procesamiento en tiempo real.' },
+  { img: '/assets/Arsenal-2.png', name: 'Pioneer CDJ-3000',      desc: 'Los reproductores más avanzados del mercado. Pantalla táctil de alta resolución, streaming y sincronía perfecta.' },
+  { img: '/assets/Arsenal-3.png', name: 'Moving Heads Pro',      desc: 'Cabezas móviles de 600W con CMY color mixing, gobo wheel y zoom óptico variable de 8° a 52°.' },
+  { img: '/assets/Arsenal-4.png', name: 'd&b audiotechnik',      desc: 'Sistema de sonido line array para venues de 50 a 5 000 personas. Claridad, potencia y precisión inigualables.' },
+  { img: '/assets/Arsenal-5.png', name: 'Sistema Láser ILDA',    desc: 'Lasers multicolor de hasta 30W. Efectos de haz, gobos y animaciones totalmente personalizables.' },
+  { img: '/assets/Arsenal-6.png', name: 'Efectos Especiales',    desc: 'Cañones de CO₂, confeti, máquinas de humo y CO₂ jets sincronizados con el ritmo.' },
+];
+---
+<section class="equipment" id="equipo">
+  <div class="container equip-head">
+    <p class="label" style="margin-bottom:.8rem">Tecnología</p>
+    <h2 class="section-title">Nuestro <i>Arsenal</i></h2>
+  </div>
+  <div class="container">
+    <div class="h-outer">
+      <div class="h-track" id="hTrack">
+      {items.map(item => (
+        <div class="eq-card">
+          <div class="eq-img"><img src={item.img} alt={item.name} /></div>
+          <div class="eq-info">
+            <h3 class="eq-name" set:html={item.name}></h3>
+            <p class="eq-desc">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+      </div>
+    </div>
+  </div>
+</section>

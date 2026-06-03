@@ -1,0 +1,10 @@
+---
+const items = ['Bodas','Conciertos','Corporativos','Festivales','Quinceaños','Aniversarios','Club Nights','Lanzamientos'];
+---
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    {[...items,...items].map(i => (
+      <span class="ticker-item"><span class="ticker-dot"></span>{i}</span>
+    ))}
+  </div>
+</div>

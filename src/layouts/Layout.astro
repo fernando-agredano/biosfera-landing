@@ -822,12 +822,12 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
       padding: clamp(.5rem, 1.2vw, .65rem) clamp(.8rem, 2vw, 1.2rem);
     }
     .hero { min-height: auto; padding-top: clamp(4rem, 10vw, 6rem); padding-bottom: clamp(2rem, 5vw, 3rem); }
-    .hero-content { padding: clamp(1rem, 3vw, 1.5rem); }
+    .hero-content { padding: clamp(1rem, 3vw, 1.5rem); gap: 1.8rem; }
     .hero-eyebrow { font-size: clamp(.4rem, 1vw, .55rem); margin-bottom: clamp(.75rem, 2vw, 1.5rem); }
     .hero-title { font-size: clamp(4rem, 11vw, 5.5rem); }
-    .hero-logo { width: clamp(190px, 50vw, 240px); height: clamp(190px, 50vw, 240px); }
+    .hero-logo { width: clamp(190px, 50vw, 240px); height: clamp(190px, 50vw, 240px); margin-bottom: 0; }
     .hero-title-wrap { margin-bottom: clamp(.1em, 0.3vw, .2em); }
-    .hero-sub { margin-top: clamp(1rem, 2vw, 2rem); }
+    .hero-sub { margin-top: 0; }
     .hero-sub-glow { font-size: clamp(1.8rem, 9vw, 2.6rem); }
     .hero-scroll { display: none; }
     .container { padding: 0 clamp(.8rem, 4vw, 1.2rem); }
@@ -894,8 +894,9 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
 
   /* Small Mobile: 480px and below */
   @media (max-width: 480px) {
+    .hero-content { gap: 1.6rem; }
     .hero-title { font-size: clamp(3.6rem, 10vw, 5rem); }
-    .hero-logo { width: clamp(170px, 46vw, 210px); height: clamp(170px, 46vw, 210px); }
+    .hero-logo { width: clamp(170px, 46vw, 210px); height: clamp(170px, 46vw, 210px); margin-bottom: 0; }
     .hero-sub-glow { font-size: clamp(1.5rem, 8vw, 2.2rem); }
     .section-title { font-size: clamp(2rem, 6.5vw, 2.6rem); }
     .services-head { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }

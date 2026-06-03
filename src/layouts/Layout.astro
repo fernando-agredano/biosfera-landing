@@ -83,9 +83,20 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   .logo-orbit {
     position: relative;
     display: flex; align-items: center; justify-content: center;
-    width: clamp(300px, 32vw, 440px); height: clamp(300px, 32vw, 440px);
+    width: clamp(340px, 36vw, 500px); height: clamp(340px, 36vw, 500px);
     transform-style: preserve-3d;
-    perspective: 900px;
+    perspective: 1000px;
+  }
+  /* ambient glow behind logo */
+  .logo-orbit::before {
+    content: '';
+    position: absolute;
+    inset: 0; margin: auto;
+    width: 55%; height: 55%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,.18) 0%, rgba(168,85,247,.08) 50%, transparent 70%);
+    filter: blur(18px);
+    pointer-events: none; z-index: 0;
   }
   .logo-ring {
     position: absolute;
@@ -94,34 +105,72 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     pointer-events: none;
     will-change: transform;
   }
+  /* Ring A — cyan, orbit XZ plane */
   .logo-ring--a {
     width: 100%; height: 100%;
-    border: 1.5px solid rgba(0,212,255,.55);
-    box-shadow: 0 0 10px rgba(0,212,255,.18);
-    animation: orbitA 9s linear infinite;
+    border: 2.5px solid rgba(0,212,255,.9);
+    box-shadow:
+      0 0 12px rgba(0,212,255,.8),
+      0 0 28px rgba(0,212,255,.45),
+      0 0 55px rgba(0,212,255,.18),
+      inset 0 0 12px rgba(0,212,255,.25);
+    animation: orbitA 7s linear infinite;
   }
+  .logo-ring--a::before {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #00d4ff;
+    box-shadow: 0 0 8px 3px #00d4ff, 0 0 18px 6px rgba(0,212,255,.7);
+    top: -5px; left: calc(50% - 5px);
+  }
+  /* Ring B — purple, tilted plane */
   .logo-ring--b {
-    width: 118%; height: 118%;
-    border: 1px solid rgba(168,85,247,.45);
-    box-shadow: 0 0 10px rgba(168,85,247,.14);
-    animation: orbitB 13s linear infinite reverse;
+    width: 120%; height: 120%;
+    border: 2px solid rgba(168,85,247,.85);
+    box-shadow:
+      0 0 10px rgba(168,85,247,.75),
+      0 0 24px rgba(168,85,247,.4),
+      0 0 48px rgba(168,85,247,.16),
+      inset 0 0 10px rgba(168,85,247,.2);
+    animation: orbitB 11s linear infinite reverse;
   }
+  .logo-ring--b::before {
+    content: '';
+    position: absolute;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #a855f7;
+    box-shadow: 0 0 7px 3px #a855f7, 0 0 16px 5px rgba(168,85,247,.65);
+    top: -4px; left: calc(50% - 4px);
+  }
+  /* Ring C — outer cyan, vertical plane */
   .logo-ring--c {
-    width: 136%; height: 136%;
-    border: 1px solid rgba(0,212,255,.25);
-    animation: orbitC 17s linear infinite;
+    width: 140%; height: 140%;
+    border: 1.5px solid rgba(0,212,255,.5);
+    box-shadow:
+      0 0 8px rgba(0,212,255,.55),
+      0 0 20px rgba(0,212,255,.22);
+    animation: orbitC 15s linear infinite;
+  }
+  .logo-ring--c::before {
+    content: '';
+    position: absolute;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #00d4ff;
+    box-shadow: 0 0 6px 2px #00d4ff, 0 0 14px 4px rgba(0,212,255,.5);
+    top: -3px; left: calc(50% - 3px);
   }
   @keyframes orbitA {
-    from { transform: rotateX(65deg) rotateZ(0deg); }
-    to   { transform: rotateX(65deg) rotateZ(360deg); }
+    from { transform: rotateX(62deg) rotateZ(0deg); }
+    to   { transform: rotateX(62deg) rotateZ(360deg); }
   }
   @keyframes orbitB {
-    from { transform: rotateX(65deg) rotateY(60deg) rotateZ(0deg); }
-    to   { transform: rotateX(65deg) rotateY(60deg) rotateZ(360deg); }
+    from { transform: rotateX(55deg) rotateY(55deg) rotateZ(0deg); }
+    to   { transform: rotateX(55deg) rotateY(55deg) rotateZ(360deg); }
   }
   @keyframes orbitC {
-    from { transform: rotateY(80deg) rotateZ(0deg); }
-    to   { transform: rotateY(80deg) rotateZ(360deg); }
+    from { transform: rotateY(78deg) rotateZ(0deg); }
+    to   { transform: rotateY(78deg) rotateZ(360deg); }
   }
   a   { text-decoration: none; color: inherit; }
 

@@ -84,8 +84,6 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     position: relative;
     display: flex; align-items: center; justify-content: center;
     width: clamp(340px, 36vw, 500px); height: clamp(340px, 36vw, 500px);
-    transform-style: preserve-3d;
-    perspective: 1000px;
   }
   /* ambient glow behind logo */
   .logo-orbit::before {
@@ -104,6 +102,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     border-radius: 50%;
     pointer-events: none;
     will-change: transform;
+    z-index: 0;
   }
   /* Ring A — cyan, orbit XZ plane */
   .logo-ring--a {
@@ -161,16 +160,16 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     top: -3px; left: calc(50% - 3px);
   }
   @keyframes orbitA {
-    from { transform: rotateX(62deg) rotateZ(0deg); }
-    to   { transform: rotateX(62deg) rotateZ(360deg); }
+    from { transform: perspective(1000px) rotateX(62deg) rotateZ(0deg); }
+    to   { transform: perspective(1000px) rotateX(62deg) rotateZ(360deg); }
   }
   @keyframes orbitB {
-    from { transform: rotateX(55deg) rotateY(55deg) rotateZ(0deg); }
-    to   { transform: rotateX(55deg) rotateY(55deg) rotateZ(360deg); }
+    from { transform: perspective(1000px) rotateX(55deg) rotateY(55deg) rotateZ(0deg); }
+    to   { transform: perspective(1000px) rotateX(55deg) rotateY(55deg) rotateZ(360deg); }
   }
   @keyframes orbitC {
-    from { transform: rotateY(78deg) rotateZ(0deg); }
-    to   { transform: rotateY(78deg) rotateZ(360deg); }
+    from { transform: perspective(1000px) rotateY(78deg) rotateZ(0deg); }
+    to   { transform: perspective(1000px) rotateY(78deg) rotateZ(360deg); }
   }
   a   { text-decoration: none; color: inherit; }
 

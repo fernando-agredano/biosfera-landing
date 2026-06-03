@@ -5,28 +5,48 @@
   <div class="hero-spotlight" aria-hidden="true"></div>
   <div class="hero-grid"      aria-hidden="true"></div>
 
-  <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
-
-  <div class="hero-shapes" aria-hidden="true">
-    <div class="h-shape h-shape--1"></div>
-    <div class="h-shape h-shape--2"></div>
-    <div class="h-shape h-shape--3"></div>
-    <div class="h-shape h-shape--4"></div>
-  </div>
-
   <div class="hero-content">
 
-    <img src="/logo.png" class="hero-logo" id="h-logo" alt="Biosfera Producción" />
-    <h1 class="hero-title" aria-label="BIOSFERA Luz y Sonido">
-      <span class="hero-title-wrap"><span class="hero-title-line" id="ht1">BIOSFERA</span></span>
-      <span class="hero-title-wrap"><span class="hero-title-line outline" id="ht2">PRODUCCIÓN</span></span>
-    </h1>
+    <!-- Columna izquierda: texto + cards -->
+    <div class="hero-left">
+      <h1 class="hero-title" aria-label="BIOSFERA Producción">
+        <span class="hero-title-wrap"><span class="hero-title-line" id="ht1">BIOSFERA</span></span>
+        <span class="hero-title-wrap"><span class="hero-title-line outline" id="ht2">PRODUCCIÓN</span></span>
+      </h1>
 
-    <div class="hero-sub" id="h-sub">
-      <span class="hero-sub-top">Transformamos cada evento en una experiencia sensorial.</span>
-      <span class="hero-sub-glow">Luz, sonido y emoción</span>
-      <span class="hero-sub-bottom">al servicio de tu momento.</span>
+      <div class="hero-sub" id="h-sub">
+        <span class="hero-sub-top">Transformamos cada evento en una experiencia sensorial.</span>
+        <span class="hero-sub-glow">Luz, sonido y emoción</span>
+        <span class="hero-sub-bottom">al servicio de tu momento.</span>
+      </div>
+
+      <div class="hero-cards">
+        <div class="hero-card">
+          <span class="hero-card-value">GDL</span>
+          <span class="hero-card-label">Guadalajara, Jalisco</span>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-value">10+</span>
+          <span class="hero-card-label">Años de experiencia</span>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-value">500+</span>
+          <span class="hero-card-label">Eventos realizados</span>
+        </div>
+        <div class="hero-card">
+          <span class="hero-card-value">100K</span>
+          <span class="hero-card-label">Watts de sonido</span>
+        </div>
+      </div>
     </div>
+
+    <!-- Columna derecha: logo -->
+    <div class="hero-right">
+      <div class="hero-logo-wrap">
+        <img src="/logo.png" class="hero-logo" id="h-logo" alt="Biosfera Producción" />
+      </div>
+    </div>
+
   </div>
 
   <div class="hero-scroll" id="h-scroll" aria-hidden="true">
@@ -34,79 +54,3 @@
     <span id="scroll-label">Scroll</span>
   </div>
 </section>
-
-<!-- ═══ PARTÍCULAS ═══ -->
-<script is:inline>
-(function initParticles() {
-  const canvas = document.getElementById('particleCanvas');
-  if (!canvas) return;
-  const ctx  = canvas.getContext('2d');
-  const hero = document.getElementById('inicio');
-
-  function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = hero.offsetWidth, h = hero.offsetHeight;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  resize();
-  window.addEventListener('resize', resize, { passive: true });
-
-  const BLUE = [0,212,255], PURP = [168,85,247];
-  function lerp(a,b,t){ return a+(b-a)*t; }
-
-  const parts = Array.from({ length: 500 }, () => {
-    const node = Math.random() < 0.1;
-    return { x: Math.random()*hero.offsetWidth, y: Math.random()*hero.offsetHeight,
-             vx:(Math.random()-.5)*.5, vy:(Math.random()-.5)*.5,
-             r: node ? Math.random()*2.5+1.6 : Math.random()*1.2+0.4,
-             op: Math.random()*.45+.22, node, tint: Math.random(),
-             phase: Math.random()*Math.PI*2 };
-  });
-
-  const mouse = { x:null, y:null };
-  hero.addEventListener('mousemove', e => {
-    const r = hero.getBoundingClientRect();
-    mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top;
-  }, { passive:true });
-  hero.addEventListener('mouseleave', () => { mouse.x=null; mouse.y=null; });
-
-  let t=0;
-  (function tick() {
-    requestAnimationFrame(tick); t+=.011;
-    const w=hero.offsetWidth, h=hero.offsetHeight;
-    ctx.clearRect(0,0,w,h);
-    parts.forEach(p => {
-      if(mouse.x!==null){
-        const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.hypot(dx,dy);
-        if(d<180&&d>1){const s=(1-d/180)*.055; p.vx+=dx/d*s; p.vy+=dy/d*s;}
-      }
-      p.vx+=(Math.random()-.5)*.014; p.vy+=(Math.random()-.5)*.014;
-      p.vx*=.972; p.vy*=.972;
-      const sp=Math.hypot(p.vx,p.vy); if(sp>2.2){p.vx=p.vx/sp*2.2;p.vy=p.vy/sp*2.2;}
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<-5)p.x=w+5; else if(p.x>w+5)p.x=-5;
-      if(p.y<-5)p.y=h+5; else if(p.y>h+5)p.y=-5;
-      const cr=Math.round(lerp(BLUE[0],PURP[0],p.tint));
-      const cg=Math.round(lerp(BLUE[1],PURP[1],p.tint));
-      const cb=Math.round(lerp(BLUE[2],PURP[2],p.tint));
-      const pulse = p.node ? p.op+Math.sin(t+p.phase)*.13 : p.op;
-      if(p.node){
-        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
-        g.addColorStop(0,`rgba(${cr},${cg},${cb},${(pulse*.55).toFixed(3)})`);
-        g.addColorStop(1,`rgba(${cr},${cg},${cb},0)`);
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r*4,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
-      }
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${cr},${cg},${cb},${pulse.toFixed(3)})`; ctx.fill();
-    });
-    if(mouse.x!==null){
-      const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,95);
-      g.addColorStop(0,'rgba(168,85,247,.11)'); g.addColorStop(1,'rgba(168,85,247,0)');
-      ctx.beginPath(); ctx.arc(mouse.x,mouse.y,95,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
-    }
-  })();
-})();
-</script>
-

@@ -142,34 +142,55 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     box-shadow: 0 0 7px 3px #a855f7, 0 0 16px 5px rgba(168,85,247,.65);
     top: -4px; left: calc(50% - 4px);
   }
-  /* Ring C — outer cyan, vertical plane */
+  /* Ring C — cyan vertical (leaning left) */
   .logo-ring--c {
-    width: 140%; height: 140%;
-    border: 1.5px solid rgba(0,212,255,.5);
+    width: 130%; height: 130%;
+    border: 2px solid rgba(0,212,255,.6);
     box-shadow:
-      0 0 8px rgba(0,212,255,.55),
-      0 0 20px rgba(0,212,255,.22);
-    animation: orbitC 15s linear infinite;
+      0 0 10px rgba(0,212,255,.65),
+      0 0 22px rgba(0,212,255,.28);
+    animation: orbitC 14s linear infinite;
   }
   .logo-ring--c::before {
     content: '';
     position: absolute;
-    width: 6px; height: 6px; border-radius: 50%;
+    width: 7px; height: 7px; border-radius: 50%;
     background: #00d4ff;
-    box-shadow: 0 0 6px 2px #00d4ff, 0 0 14px 4px rgba(0,212,255,.5);
-    top: -3px; left: calc(50% - 3px);
+    box-shadow: 0 0 7px 2px #00d4ff, 0 0 16px 4px rgba(0,212,255,.6);
+    top: -3.5px; left: calc(50% - 3.5px);
+  }
+  /* Ring D — purple vertical (mirror of C, leaning right) */
+  .logo-ring--d {
+    width: 130%; height: 130%;
+    border: 2px solid rgba(168,85,247,.75);
+    box-shadow:
+      0 0 10px rgba(168,85,247,.65),
+      0 0 22px rgba(168,85,247,.28);
+    animation: orbitD 14s linear infinite reverse;
+  }
+  .logo-ring--d::before {
+    content: '';
+    position: absolute;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #a855f7;
+    box-shadow: 0 0 7px 2px #a855f7, 0 0 16px 4px rgba(168,85,247,.6);
+    top: -3.5px; left: calc(50% - 3.5px);
   }
   @keyframes orbitA {
-    from { transform: perspective(1000px) rotateX(62deg) rotateZ(0deg); }
-    to   { transform: perspective(1000px) rotateX(62deg) rotateZ(360deg); }
+    from { transform: perspective(1200px) rotateX(62deg) rotateZ(0deg); }
+    to   { transform: perspective(1200px) rotateX(62deg) rotateZ(360deg); }
   }
   @keyframes orbitB {
-    from { transform: perspective(1000px) rotateX(55deg) rotateY(55deg) rotateZ(0deg); }
-    to   { transform: perspective(1000px) rotateX(55deg) rotateY(55deg) rotateZ(360deg); }
+    from { transform: perspective(1200px) rotateX(55deg) rotateY(55deg) rotateZ(0deg); }
+    to   { transform: perspective(1200px) rotateX(55deg) rotateY(55deg) rotateZ(360deg); }
   }
   @keyframes orbitC {
-    from { transform: perspective(1000px) rotateY(78deg) rotateZ(0deg); }
-    to   { transform: perspective(1000px) rotateY(78deg) rotateZ(360deg); }
+    from { transform: perspective(1200px) rotateY(72deg) rotateZ(0deg); }
+    to   { transform: perspective(1200px) rotateY(72deg) rotateZ(360deg); }
+  }
+  @keyframes orbitD {
+    from { transform: perspective(1200px) rotateY(-72deg) rotateZ(0deg); }
+    to   { transform: perspective(1200px) rotateY(-72deg) rotateZ(360deg); }
   }
   a   { text-decoration: none; color: inherit; }
 

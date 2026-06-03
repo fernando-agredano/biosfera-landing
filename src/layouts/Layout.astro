@@ -22,11 +22,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
 
 </head>
 <body>
-  <!-- 1. Cursor elements — primero en el DOM -->
-  <div class="cur"  id="cur"></div>
-  <div class="cur-f" id="curf"></div>
-
-  <!-- 2. CDN libs ANTES del slot — garantiza que GSAP exista
+  <!-- CDN libs ANTES del slot — garantiza que GSAP exista
        cuando el script inline de index.astro se ejecute -->
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -62,7 +58,6 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     background: var(--bg);
     color: var(--white);
     overflow-x: hidden;
-    cursor: none;
   }
 
   /* Reset general — excluye logos con tamaño fijo */
@@ -84,21 +79,6 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   }
   a   { text-decoration: none; color: inherit; }
 
-  /* ─── CURSOR ─── */
-  .cur, .cur-f {
-    position: fixed; top: 0; left: 0;
-    border-radius: 50%; pointer-events: none; z-index: 9999;
-  }
-  .cur   { width: 8px; height: 8px; background: var(--blue); }
-  .cur-f {
-    width: 38px; height: 38px;
-    border: 1px solid rgba(0,212,255,.35);
-    transition: width .25s ease, height .25s ease, border-color .25s ease;
-  }
-  body:has(a:hover) .cur-f, body:has(button:hover) .cur-f {
-    width: 56px; height: 56px;
-    border-color: rgba(168,85,247,.5);
-  }
 
   /* ─── NAV ─── */
   #mainNav {
@@ -169,7 +149,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     display: inline-flex; align-items: center; gap: .6rem; white-space: nowrap;
     padding: clamp(.5rem, 1.2vw, .85rem) clamp(.9rem, 2.5vw, 1.6rem);
     border: 1px solid rgba(255,255,255,.7);
-    cursor: none;
+    cursor: pointer;
     border-radius: 6px;
     position: relative; z-index: 1;
     overflow: hidden;
@@ -571,7 +551,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     font-family: var(--ff-mono); font-size: clamp(.55rem, 1.3vw, .7rem); letter-spacing: .14em; text-transform: uppercase;
     color: var(--white); background: transparent;
     padding: clamp(.7rem, 1.8vw, 1.1rem) clamp(1.2rem, 3.5vw, 2.6rem); border: 1px solid rgba(255,255,255,.7);
-    cursor: none; border-radius: 8px;
+    cursor: pointer; border-radius: 8px;
     position: relative; overflow: hidden;
     transition: color .35s ease, border-color .35s ease;
   }
@@ -851,7 +831,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-scroll { display: none; }
     .container { padding: 0 clamp(.8rem, 4vw, 1.2rem); }
     .label { font-size: clamp(.4rem, 1vw, .5rem); }
-    .section-title { font-size: clamp(1.4rem, 4.5vw, 1.8rem); }
+    .section-title { font-size: clamp(2.2rem, 7vw, 3rem); }
     .about { padding: clamp(3rem, 6vw, 6rem) 0; }
     .about-grid { gap: clamp(1.5rem, 3vw, 2.5rem); }
     .about-body { font-size: clamp(.7rem, 1.6vw, .8rem); }
@@ -916,7 +896,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-title { font-size: clamp(2.8rem, 9vw, 4rem); }
     .hero-logo { width: clamp(150px, 40vw, 180px); height: clamp(150px, 40vw, 180px); }
     .hero-sub-glow { font-size: clamp(1.1rem, 6vw, 1.6rem); }
-    .section-title { font-size: clamp(1.2rem, 4vw, 1.6rem); }
+    .section-title { font-size: clamp(2rem, 6.5vw, 2.6rem); }
     .services-head { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
     .s-card { margin-bottom: clamp(.5rem, 1vw, .75rem); }
     .cta-title { font-size: clamp(1.5rem, 4.5vw, 2.2rem); line-height: 1; }

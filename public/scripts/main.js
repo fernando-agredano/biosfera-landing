@@ -1,31 +1,5 @@
 gsap.registerPlugin(ScrollTrigger);
 
-    /* ══════════════════════════════════════
-       CURSOR — RAF puro, sin GSAP
-       Evita conflictos de tweens y funciona
-       en cualquier entorno (Astro dev, prod)
-    ══════════════════════════════════════ */
-    const cur  = document.getElementById('cur');
-    const curf = document.getElementById('curf');
-
-    // Inicia fuera de pantalla para no "aparecer" en esquina
-    let mx = -200, my = -200;
-    let fx = -200, fy = -200;
-
-    // capture:true garantiza que recibimos el evento antes que overlays de Astro
-    window.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
-    }, { capture: true, passive: true });
-
-    (function tickCursor() {
-      requestAnimationFrame(tickCursor);
-      fx += (mx - fx) * 0.22;
-      fy += (my - fy) * 0.22;
-      if (cur)  cur.style.transform  = `translate(${mx - 4}px,${my - 4}px)`;
-      if (curf) curf.style.transform = `translate(${fx - 19}px,${fy - 19}px)`;
-    })();
-
 
     /* ══════════════════════════════════════
        VINYL 3D — CSS 3D tilt reveal on scroll

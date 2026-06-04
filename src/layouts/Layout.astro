@@ -646,24 +646,19 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   .cta-btn {
     display: inline-flex; align-items: center; gap: .85rem;
     font-family: var(--ff-mono); font-size: clamp(.55rem, 1.3vw, .7rem); letter-spacing: .14em; text-transform: uppercase;
-    color: var(--white); background: transparent;
-    padding: clamp(.7rem, 1.8vw, 1.1rem) clamp(1.2rem, 3.5vw, 2.6rem); border: 1px solid rgba(255,255,255,.7);
-    cursor: pointer; border-radius: 8px;
-    position: relative; overflow: hidden;
-    transition: color .35s ease, border-color .35s ease;
+    color: var(--white);
+    background: rgba(12, 14, 26, 0.88);
+    padding: clamp(.7rem, 1.8vw, 1.1rem) clamp(1.2rem, 3.5vw, 2.6rem);
+    border: 1px solid rgba(255,255,255,.1);
+    cursor: pointer; border-radius: 10px;
+    backdrop-filter: blur(10px);
+    transition: color .28s ease, border-color .28s ease, background .28s ease;
   }
-  .cta-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--blue);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform .35s ease;
-    z-index: -1;
+  .cta-btn:hover {
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(42, 167, 200, 0.08);
   }
-  .cta-btn:hover::before { transform: scaleY(1); }
-  .cta-btn:hover { color: var(--bg); border-color: var(--blue); }
   .cta-mail { display: block; margin-top: 2rem; font-family: var(--ff-mono); font-size: clamp(.55rem, 1.3vw, .65rem); letter-spacing: .15em; color: var(--muted); transition: color .3s; }
   .cta-mail:hover { color: var(--blue); }
 
@@ -686,7 +681,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(260px, 1.8fr) repeat(3, minmax(150px, .7fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: clamp(2.5rem, 5vw, 5.75rem);
     width: 100%;
     padding: clamp(4rem, 7vw, 6.5rem) 0 3.75rem;

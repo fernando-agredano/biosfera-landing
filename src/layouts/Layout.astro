@@ -173,28 +173,21 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     font-family: var(--ff-mono);
     font-size: clamp(.58rem, 1.2vw, .75rem);
     letter-spacing: .12em; text-transform: uppercase;
-    color: var(--white); background: transparent;
+    color: var(--white);
+    background: rgba(12, 14, 26, 0.88);
     display: inline-flex; align-items: center; gap: .6rem; white-space: nowrap;
     padding: clamp(.5rem, 1.2vw, .85rem) clamp(.9rem, 2.5vw, 1.6rem);
-    border: 1px solid rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.1);
     cursor: pointer;
-    border-radius: 6px;
-    position: relative; z-index: 1;
-    overflow: hidden;
-    transition: color .35s ease, border-color .35s ease;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    transition: color .28s ease, border-color .28s ease, background .28s ease;
   }
-  .nav-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--blue);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform .35s ease;
-    z-index: -1;
+  .nav-btn:hover {
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(42, 167, 200, 0.08);
   }
-  .nav-btn:hover::before { transform: scaleY(1); }
-  .nav-btn:hover { color: var(--bg); border-color: var(--blue); }
 
   /* ─── HERO ─── */
   .hero {

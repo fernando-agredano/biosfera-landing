@@ -705,7 +705,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   .foot-col {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: .72rem;
     min-width: 0;
     align-items: center;
   }
@@ -713,26 +713,26 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   .foot-logo {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: .8rem;
     font-family: var(--ff-display);
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-size: 1.4rem;
     letter-spacing: .12em;
     line-height: 1;
   }
 
   .foot-logo-img {
-    width: clamp(52px, 9vw, 72px); height: clamp(52px, 9vw, 72px);
+    width: 52px; height: 52px;
     object-fit: contain; flex-shrink: 0;
-    filter: brightness(0) invert(1) drop-shadow(0 0 14px rgba(42,167,200,.6));
+    filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(42,167,200,.55));
   }
 
-  .foot-logo-text { display: flex; flex-direction: column; gap: .1rem; }
+  .foot-logo-text { display: flex; flex-direction: column; gap: .05rem; }
   .foot-logo-name { display: block; }
   .foot-logo-text b { color: var(--blue); }
 
   .foot-logo-sub {
     font-family: var(--ff-mono);
-    font-size: .58rem;
+    font-size: .46rem;
     letter-spacing: .3em;
     text-transform: uppercase;
     color: var(--blue);
@@ -740,7 +740,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   }
 
   .foot-tagline {
-    font-size: 1.05rem;
+    font-size: .86rem;
     font-weight: 300;
     color: var(--subtle);
     line-height: 1.8;
@@ -751,11 +751,11 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
 
   .foot-social a {
     display: flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px;
+    width: 36px; height: 36px;
     border: 1px solid rgba(255,255,255,.08);
     background: rgba(255,255,255,.015);
     color: var(--muted);
-    border-radius: 50%;
+    border-radius: 8px;
     transition: border-color .3s, color .3s, background .3s, transform .25s ease;
   }
 
@@ -774,17 +774,17 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   }
 
   .foot-col-title {
-    font-family: var(--ff-display);
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: .06em;
+    font-family: var(--ff-mono);
+    font-size: .58rem;
+    letter-spacing: .28em;
+    margin-right: -.28em;
     text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: .75rem;
+    color: rgba(238,238,245,.78);
+    margin-bottom: .55rem;
   }
 
   .foot-col a {
-    font-size: 1.05rem;
+    font-size: .82rem;
     font-weight: 300;
     color: var(--muted);
     transition: color .25s, transform .25s ease;
@@ -800,8 +800,8 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     font-style: normal;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    font-size: 1rem;
+    gap: .68rem;
+    font-size: .82rem;
     font-weight: 300;
     color: var(--muted);
     line-height: 1.55;

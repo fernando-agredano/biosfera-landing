@@ -68,59 +68,167 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
 
   /* Logo en hero */
   .hero-logo {
-    width: clamp(140px, 14vw, 190px); height: clamp(140px, 14vw, 190px);
+    width: clamp(118px, 10.4vw, 158px);
+    height: clamp(118px, 10.4vw, 158px);
     object-fit: contain;
-    filter: brightness(0) invert(1) drop-shadow(0 0 28px rgba(0,212,255,.8)) drop-shadow(0 0 60px rgba(0,212,255,.25));
-    animation: logoFloat 5s ease-in-out infinite;
-    position: relative; z-index: 2;
-  }
-  @keyframes logoFloat {
-    0%,100% { transform: translateY(0); filter: brightness(0) invert(1) drop-shadow(0 0 28px rgba(0,212,255,.8)) drop-shadow(0 0 60px rgba(0,212,255,.25)); }
-    50%      { transform: translateY(-14px); filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(168,85,247,.85)) drop-shadow(0 0 80px rgba(168,85,247,.3)); }
+    filter: brightness(0) invert(1);
+    position: relative;
+    z-index: 4;
   }
 
-  /* ─── 3D ORBIT RINGS — atom structure ─── */
+  /* ─── 3D ORBIT RINGS — neon atom structure ─── */
   .logo-orbit {
+    --orbit-size: clamp(460px, 47vw, 660px);
     position: relative;
-    display: flex; align-items: center; justify-content: center;
-    width: clamp(420px, 44vw, 580px); height: clamp(420px, 44vw, 580px);
+    display: grid;
+    place-items: center;
+    width: min(var(--orbit-size), 100%);
+    aspect-ratio: 1;
+    height: auto;
+    isolation: isolate;
+    transform-style: preserve-3d;
+  }
+  .logo-orbit-field {
+    position: absolute;
+    inset: 2%;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: clamp(40px, 5.3vw, 74px) clamp(40px, 5.3vw, 74px);
+    mask-image: radial-gradient(circle at 50% 50%, black 0%, black 58%, transparent 76%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0%, black 58%, transparent 76%);
+    opacity: .86;
+  }
+  .logo-orbit-aura {
+    position: absolute;
+    inset: 13%;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(0,212,255,.18), transparent 38%),
+      radial-gradient(circle at 50% 50%, rgba(168,85,247,.16), transparent 60%);
+    filter: blur(20px);
+    opacity: .95;
+    animation: atomAura 6.5s ease-in-out infinite;
+  }
+  .logo-core-glow {
+    position: absolute;
+    z-index: 3;
+    width: 24%;
+    aspect-ratio: 1;
+    pointer-events: none;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(0,212,255,.18), transparent 48%),
+      radial-gradient(circle at 50% 50%, rgba(168,85,247,.14), transparent 74%);
+    filter: blur(12px);
+    mix-blend-mode: screen;
   }
   .logo-ring {
+    --ring-color: rgba(0,212,255,.96);
+    --ring-glow: rgba(0,212,255,.78);
+    --ring-rotate: 0deg;
     position: absolute;
-    inset: 0;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    border: clamp(1.5px, .18vw, 2.6px) solid var(--ring-color);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 0;
+    transform: translate(-50%, -50%) rotate(var(--ring-rotate));
+    transform-origin: center;
+    box-shadow:
+      0 0 10px var(--ring-glow),
+      0 0 24px color-mix(in srgb, var(--ring-glow) 62%, transparent),
+      0 0 58px color-mix(in srgb, var(--ring-glow) 26%, transparent),
+      inset 0 0 10px color-mix(in srgb, var(--ring-glow) 35%, transparent);
+    animation: ringBreath 6s ease-in-out infinite;
+    will-change: transform, filter;
   }
-  /* Aro A — horizontal — cyan */
-  .logo-ring--a {
-    border: 3px solid rgba(0,212,255,.95);
-    box-shadow: 0 0 14px rgba(0,212,255,.9), 0 0 32px rgba(0,212,255,.5), 0 0 60px rgba(0,212,255,.2);
-    animation: orbitA 14s linear infinite;
+  .logo-ring::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: inherit;
+    border-radius: inherit;
+    filter: blur(9px);
+    opacity: .52;
   }
-  /* Aro B — diagonal +60° — purple */
-  .logo-ring--b {
-    border: 3px solid rgba(168,85,247,.95);
-    box-shadow: 0 0 14px rgba(168,85,247,.85), 0 0 32px rgba(168,85,247,.45), 0 0 60px rgba(168,85,247,.18);
-    animation: orbitB 14s linear infinite;
+  .ring-spark {
+    position: absolute;
+    z-index: 3;
+    left: 100%;
+    top: 50%;
+    width: clamp(8px, .78vw, 11px);
+    height: clamp(8px, .78vw, 11px);
+    border-radius: 50%;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 34% 32%, rgba(238,238,245,.98) 0 18%, var(--ring-color) 44%, transparent 76%);
+    box-shadow:
+      0 0 7px rgba(238,238,245,.86),
+      0 0 16px var(--ring-glow),
+      0 0 34px color-mix(in srgb, var(--ring-glow) 56%, transparent);
+    transform: translate(-50%, -50%);
+    animation: sparkPulse 1.6s ease-in-out infinite;
+    will-change: left, top, opacity;
   }
-  /* Aro C — diagonal -60° — purple */
-  .logo-ring--c {
-    border: 3px solid rgba(168,85,247,.95);
-    box-shadow: 0 0 14px rgba(168,85,247,.85), 0 0 32px rgba(168,85,247,.45), 0 0 60px rgba(168,85,247,.18);
-    animation: orbitC 14s linear infinite;
+  .ring-spark::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: inherit;
+    background: radial-gradient(circle, color-mix(in srgb, var(--ring-glow) 42%, transparent) 0%, transparent 68%);
+    filter: blur(4px);
+    opacity: .82;
   }
-  @keyframes orbitA {
-    0%   { transform: rotateX(65deg) rotateZ(0deg); }
-    100% { transform: rotateX(65deg) rotateZ(360deg); }
+  .logo-ring--equator {
+    width: 90%;
+    height: 24%;
   }
-  @keyframes orbitB {
-    0%   { transform: rotateX(65deg) rotateZ(60deg); }
-    100% { transform: rotateX(65deg) rotateZ(420deg); }
+  .logo-ring--vertical {
+    width: 28%;
+    height: 86%;
+    animation-delay: -2.2s;
   }
-  @keyframes orbitC {
-    0%   { transform: rotateX(65deg) rotateZ(-60deg); }
-    100% { transform: rotateX(65deg) rotateZ(300deg); }
+  .logo-ring--vertical .ring-spark { animation-delay: -.4s; }
+  .logo-ring--diagonal-a,
+  .logo-ring--diagonal-b {
+    --ring-color: rgba(178,91,255,.95);
+    --ring-glow: rgba(168,85,247,.82);
+    width: 84%;
+    height: 25%;
+  }
+  .logo-ring--diagonal-a {
+    --ring-rotate: 56deg;
+    animation-delay: -1.1s;
+  }
+  .logo-ring--diagonal-a .ring-spark { animation-delay: -.8s; }
+  .logo-ring--diagonal-b {
+    --ring-rotate: -56deg;
+    animation-delay: -3.1s;
+  }
+  .logo-ring--diagonal-b .ring-spark { animation-delay: -1.2s; }
+  @keyframes sparkPulse {
+    0%, 100% { opacity: .78; transform: translate(-50%, -50%) scale(.86); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+  }
+  @keyframes ringBreath {
+    0%, 100% {
+      transform: translate(-50%, -50%) rotate(var(--ring-rotate)) scale(1);
+      filter: saturate(1) brightness(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(var(--ring-rotate)) scale(1.018);
+      filter: saturate(1.18) brightness(1.12);
+    }
+  }
+  @keyframes atomAura {
+    0%, 100% { transform: scale(.96); opacity: .72; }
+    50% { transform: scale(1.05); opacity: 1; }
   }
   a   { text-decoration: none; color: inherit; }
 
@@ -373,6 +481,8 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   .hero-right {
     display: flex; justify-content: center; align-items: center;
     height: 100%;
+    width: 100%;
+    min-width: 0;
   }
   .hero-logo-wrap {
     display: flex; justify-content: center; align-items: center;
@@ -471,6 +581,12 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     }
     .hero-dj-img { transition: none; }
     .hero-dj-wrap:hover .hero-dj-img { transform: none; }
+    .hero-logo,
+    .logo-orbit-aura,
+    .logo-ring,
+    .ring-spark {
+      animation: none;
+    }
   }
   @keyframes pulse-line {
     0%,100% { opacity: .3; transform: scaleY(1) translateY(0); }
@@ -872,9 +988,9 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-sub { align-items: center; text-align: center; }
     .hero-sub-glow { align-items: center; }
     .hero-cards { display: none; }
-    .hero-logo { width: 160px; height: 160px; }
-    .logo-ring { display: none; }
-    .logo-orbit { width: auto; height: auto; }
+    .hero-logo { width: clamp(108px, 18vw, 136px); height: clamp(108px, 18vw, 136px); }
+    .logo-orbit { --orbit-size: clamp(320px, 64vw, 440px); }
+    .logo-orbit-field { opacity: .6; }
     .gallery-grid { grid-template-columns: 1fr; }
     .services-grid { grid-template-columns: 1fr; border: none; }
     .s-card { border: 1px solid rgba(255,255,255,.05); margin-bottom: 1rem; border-right: none; }
@@ -928,7 +1044,8 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-content { padding: clamp(1rem, 3vw, 1.5rem); gap: 0.8rem; }
     .hero-eyebrow { font-size: clamp(.4rem, 1vw, .55rem); margin-bottom: clamp(.75rem, 2vw, 1.5rem); }
     .hero-title { font-size: clamp(4rem, 11vw, 5.5rem); }
-    .hero-logo { width: clamp(190px, 50vw, 240px); height: clamp(190px, 50vw, 240px); }
+    .logo-orbit { --orbit-size: clamp(280px, 78vw, 360px); }
+    .hero-logo { width: clamp(96px, 27vw, 126px); height: clamp(96px, 27vw, 126px); }
     .hero-title-wrap { margin-bottom: clamp(.1em, 0.3vw, .2em); }
     .hero-sub { margin-top: 2.5rem; }
     .hero-sub-glow { font-size: clamp(1.8rem, 9vw, 2.6rem); }
@@ -1000,7 +1117,8 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-content { gap: 0.6rem; }
     .hero-sub { margin-top: 2rem; }
     .hero-title { font-size: clamp(3.6rem, 10vw, 5rem); }
-    .hero-logo { width: clamp(170px, 46vw, 210px); height: clamp(170px, 46vw, 210px); }
+    .logo-orbit { --orbit-size: clamp(250px, 80vw, 318px); }
+    .hero-logo { width: clamp(88px, 27vw, 112px); height: clamp(88px, 27vw, 112px); }
     .hero-sub-glow { font-size: clamp(1.5rem, 8vw, 2.2rem); }
     .section-title { font-size: clamp(2rem, 6.5vw, 2.6rem); }
     .services-head { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }

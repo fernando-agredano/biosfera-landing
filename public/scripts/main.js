@@ -127,6 +127,23 @@ gsap.registerPlugin(ScrollTrigger);
       });
     }
 
+    const orbitSparks = Array.from(document.querySelectorAll('.logo-ring .ring-spark'));
+    if (!reduceMotion && orbitSparks.length) {
+      const phases = [0, Math.PI * 0.58, Math.PI * 1.16, Math.PI * 1.74];
+      const speed = 0.00115;
+
+      const moveOrbitSparks = time => {
+        orbitSparks.forEach((spark, index) => {
+          const angle = time * speed + phases[index % phases.length];
+          spark.style.left = `${50 + Math.cos(angle) * 50}%`;
+          spark.style.top = `${50 + Math.sin(angle) * 50}%`;
+        });
+        requestAnimationFrame(moveOrbitSparks);
+      };
+
+      requestAnimationFrame(moveOrbitSparks);
+    }
+
     /* ══════════════════════════════════════
        ABOUT
     ══════════════════════════════════════ */

@@ -189,37 +189,34 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     background: rgba(42, 167, 200, 0.08);
   }
 
+  /* ─── NAV RIGHT (hamburger wrapper) ─── */
+  .nav-right {
+    display: flex; align-items: center; gap: 1rem;
+    position: relative; z-index: 1;
+  }
+
   /* ─── HAMBURGER ─── */
   .nav-hamburger {
     display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
+    align-items: center; justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
     padding: 6px;
-    position: relative; z-index: 210;
+    color: var(--white);
+    line-height: 0;
   }
-  .nav-hamburger span {
-    display: block;
-    width: 22px; height: 2px;
-    background: var(--white);
-    border-radius: 2px;
-    transition: transform .3s ease, opacity .3s ease;
-  }
-  .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-icon-hidden { display: none; }
 
   /* ─── NAV OVERLAY ─── */
+  /* Outside <nav> — avoids backdrop-filter containing-block bug en Chrome mobile */
   .nav-overlay {
     display: none;
     position: fixed; inset: 0;
     background: rgba(0, 0, 0, .6);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
-    z-index: 205;
+    z-index: 150;
     opacity: 0;
     pointer-events: none;
     transition: opacity .3s ease;
@@ -230,19 +227,19 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
   }
 
   /* ─── NAV DRAWER ─── */
+  /* Outside <nav> — avoids backdrop-filter containing-block bug en Chrome mobile */
   .nav-drawer {
     position: fixed;
-    top: 0; right: 0; bottom: 0;
-    width: min(50vw, 280px);
-    background: rgba(7, 9, 30, .97);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    inset: 0 0 0 auto;
+    width: min(55vw, 280px);
+    background: rgba(7, 9, 30, .98);
     border-left: 1px solid rgba(42, 167, 200, .15);
-    z-index: 206;
+    z-index: 160;
     transform: translateX(100%);
     transition: transform .35s cubic-bezier(.4, 0, .2, 1);
     padding: 5.5rem 2rem 2rem;
     display: flex; flex-direction: column;
+    overflow-y: auto;
   }
   .nav-drawer.is-open { transform: translateX(0); }
   .nav-drawer-links {
@@ -918,6 +915,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .nav-btn { display: none; }
     .nav-hamburger { display: flex; }
     .nav-overlay { display: block; }
+    .nav-drawer { display: flex; }
     .gallery-stack { grid-template-columns: 1fr; }
     .hero { min-height: 60vh; padding-top: clamp(5rem, 12vw, 7rem); }
     /* increase hero title on smaller screens for better visibility */

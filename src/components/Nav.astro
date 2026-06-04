@@ -16,56 +16,93 @@
       <li><a href="#contacto">Contacto</a></li>
     </ul>
 
-    <a href="#contacto" class="nav-btn">Cotizar</a>
+    <div class="nav-right">
+      <a href="#contacto" class="nav-btn">Cotizar</a>
 
-    <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menú" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-
-  <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
-
-  <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-    <ul class="nav-drawer-links">
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#galeria">Galería</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
+      <button
+        id="nav-mobile-toggle"
+        type="button"
+        class="nav-hamburger"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <span id="nav-icon-menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </span>
+        <span id="nav-icon-close" class="nav-icon-hidden">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
 </nav>
 
+<!-- Fuera del <nav> para evitar que backdrop-filter cree un containing block
+     que rompe position:fixed en Chrome mobile -->
+<div
+  id="nav-mobile-overlay"
+  class="nav-overlay"
+  aria-hidden="true"
+></div>
+
+<div
+  id="nav-mobile-panel"
+  class="nav-drawer"
+  aria-hidden="true"
+>
+  <ul class="nav-drawer-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</div>
+
 <script is:inline>
   (function () {
-    const hamburger = document.getElementById('navHamburger');
-    const drawer    = document.getElementById('navDrawer');
-    const overlay   = document.getElementById('navOverlay');
+    var toggle  = document.getElementById('nav-mobile-toggle');
+    var panel   = document.getElementById('nav-mobile-panel');
+    var overlay = document.getElementById('nav-mobile-overlay');
+    var iconMenu  = document.getElementById('nav-icon-menu');
+    var iconClose = document.getElementById('nav-icon-close');
 
-    function openDrawer() {
-      hamburger.classList.add('is-open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      drawer.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
+    function openMenu() {
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
       overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      iconMenu.classList.add('nav-icon-hidden');
+      iconClose.classList.remove('nav-icon-hidden');
       document.body.style.overflow = 'hidden';
     }
 
-    function closeDrawer() {
-      hamburger.classList.remove('is-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      drawer.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
+    function closeMenu() {
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
       overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      iconMenu.classList.remove('nav-icon-hidden');
+      iconClose.classList.add('nav-icon-hidden');
       document.body.style.overflow = '';
     }
 
-    hamburger.addEventListener('click', () => {
-      drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
+    toggle.addEventListener('click', function () {
+      panel.classList.contains('is-open') ? closeMenu() : openMenu();
     });
 
-    overlay.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeMenu);
 
-    drawer.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', closeDrawer);
+    panel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMenu);
     });
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768) closeMenu();
+    }, { passive: true });
   })();
 </script>

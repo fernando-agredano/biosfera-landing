@@ -146,10 +146,9 @@ gsap.registerPlugin(ScrollTrigger);
 
       const stage = new T.Group();
       const coreGroup = new T.Group();
-      const shardGroup = new T.Group();
 
       scene.add(stage);
-      stage.add(shardGroup, coreGroup);
+      stage.add(coreGroup);
 
       const edgeMaterial = new T.MeshBasicMaterial({
         color: cyan,
@@ -191,42 +190,10 @@ gsap.registerPlugin(ScrollTrigger);
         return group;
       };
 
-      const coreGeometry = new T.IcosahedronGeometry(1.62, 1);
+      const coreGeometry = new T.IcosahedronGeometry(2.3, 1);
       const core = createSolidEdges(coreGeometry, .018, edgeMaterial);
       const coreGlow = createSolidEdges(coreGeometry, .034, glowEdgeMaterial);
       coreGroup.add(coreGlow, core);
-
-      const shardGeometries = [
-        new T.TetrahedronGeometry(.24, 0),
-        new T.OctahedronGeometry(.22, 0),
-        new T.IcosahedronGeometry(.2, 0)
-      ];
-      const shardSeeds = [
-        { radius: 2.2, depth: .26, phase: .15, speed: .48, scale: .78, tilt: .08 },
-        { radius: 2.34, depth: .22, phase: .95, speed: .54, scale: .72, tilt: -.1 },
-        { radius: 2.46, depth: .28, phase: 1.7, speed: .42, scale: .68, tilt: .12 },
-        { radius: 2.26, depth: .24, phase: 2.45, speed: .5, scale: .76, tilt: -.07 },
-        { radius: 2.4, depth: .3, phase: 3.18, speed: .46, scale: .66, tilt: .1 },
-        { radius: 2.18, depth: .2, phase: 3.95, speed: .56, scale: .7, tilt: -.12 },
-        { radius: 2.32, depth: .24, phase: 4.7, speed: .49, scale: .78, tilt: .06 },
-        { radius: 2.24, depth: .22, phase: 5.45, speed: .52, scale: .68, tilt: -.08 }
-      ];
-      const shards = shardSeeds.map((seed, index) => {
-        const shard = new T.Group();
-        const geometry = shardGeometries[index % shardGeometries.length];
-        shard.add(
-          createSolidEdges(geometry, .017, glowEdgeMaterial),
-          createSolidEdges(geometry, .01, edgeMaterial)
-        );
-        shard.rotation.set(seed.phase, seed.phase * .7, seed.phase * 1.18);
-        shard.scale.setScalar(seed.scale);
-        shard.userData = {
-          ...seed,
-          spin: .22 + (index % 5) * .06
-        };
-        shardGroup.add(shard);
-        return shard;
-      });
 
       const resizeHeroThree = () => {
         const rect = heroThreeWrap.getBoundingClientRect();
@@ -241,20 +208,6 @@ gsap.registerPlugin(ScrollTrigger);
         core.rotation.x = elapsed * .16;
         core.rotation.y = elapsed * .22;
         coreGlow.rotation.copy(core.rotation);
-
-        shards.forEach(shard => {
-          const angle = elapsed * shard.userData.speed + shard.userData.phase;
-          const depthWave = Math.sin(angle + shard.userData.phase * .35);
-          const orbitY = Math.sin(angle) * shard.userData.radius;
-          const orbitZ = depthWave * shard.userData.depth + Math.cos(angle) * shard.userData.radius * shard.userData.tilt;
-
-          shard.position.x = Math.cos(angle) * shard.userData.radius;
-          shard.position.y = orbitY;
-          shard.position.z = orbitZ;
-          shard.scale.setScalar(shard.userData.scale * (1 + (depthWave + 1) * .025));
-          shard.rotation.x += shard.userData.spin * .008;
-          shard.rotation.y += shard.userData.spin * .011;
-        });
 
         stage.rotation.y = Math.sin(elapsed * .18) * .08;
         stage.rotation.x = Math.cos(elapsed * .16) * .035;

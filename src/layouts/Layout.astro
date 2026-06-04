@@ -26,6 +26,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
        cuando el script inline de index.astro se ejecute -->
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- 3. Contenido de la página (componentes + script inline de main.js) -->
   <slot />
@@ -76,7 +77,7 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     z-index: 4;
   }
 
-  /* ─── 3D ORBIT RINGS — neon atom structure ─── */
+  /* ─── HERO 3D STAGE ─── */
   .logo-orbit {
     --orbit-size: clamp(460px, 47vw, 660px);
     position: relative;
@@ -88,6 +89,23 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     isolation: isolate;
     transform-style: preserve-3d;
   }
+  .hero-three-wrap {
+    position: absolute;
+    inset: 4%;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 50%;
+    contain: paint;
+  }
+  .hero-three-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: .9;
+    mix-blend-mode: normal;
+  }
+  /* Modelo anterior de aros conservado para reactivarlo desde Hero.astro. */
   .logo-orbit-field {
     position: absolute;
     inset: 2%;
@@ -518,11 +536,11 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     line-height: 1;
     letter-spacing: .05em;
     display: flex; flex-direction: column; align-items: flex-start;
-    background: linear-gradient(100deg, #00d4ff 0%, #a855f7 55%, #00d4ff 100%);
+    background: linear-gradient(100deg, #00d4ff 0%, #b25bff 55%, #00d4ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 18px rgba(0,212,255,.65)) drop-shadow(0 0 40px rgba(168,85,247,.35));
+    filter: drop-shadow(0 0 18px rgba(0,212,255,.65)) drop-shadow(0 0 40px rgba(178,91,255,.35));
   }
 
   /* ─── HERO CARDS ─── */

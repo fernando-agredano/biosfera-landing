@@ -73,14 +73,12 @@ gsap.registerPlugin(ScrollTrigger);
     /* ══════════════════════════════════════
        HERO ENTRANCE
     ══════════════════════════════════════ */
-    gsap.set(['#h-eyebrow', '#h-sub', '#h-scroll'], { opacity: 0 });
+    gsap.set(['#h-eyebrow', '#h-scroll'], { opacity: 0 });
 
     const heroTl = gsap.timeline({ delay: .3 });
     heroTl
-      .from(['#ht1','#ht2'], { y: '110%', duration: 1.3, ease: 'expo.out', stagger: .1 })
-      .from('.hero-dj-wrap', { '--dj-x': '46%', opacity: 0, duration: 1.45, ease: 'expo.out' }, '-=1.1')
+      .from('.hero-dj-wrap', { '--dj-x': '46%', opacity: 0, duration: 1.45, ease: 'expo.out' })
       .to('#h-eyebrow', { opacity: 1, duration: .8, ease: 'power3.out' }, '-=.7')
-      .to('#h-sub',     { opacity: 1, duration: .8, ease: 'power3.out' }, '-=.55')
       .to('#h-scroll',  { opacity: 1, duration: .5 }, '-=.3');
 
     // Hero glow parallax
@@ -127,21 +125,166 @@ gsap.registerPlugin(ScrollTrigger);
       });
     }
 
-    const orbitSparks = Array.from(document.querySelectorAll('.logo-ring .ring-spark'));
-    if (!reduceMotion && orbitSparks.length) {
-      const phases = [0, Math.PI * 0.58, Math.PI * 1.16, Math.PI * 1.74];
-      const speed = 0.00115;
+    const heroThreeWrap = document.getElementById('heroThreeWrap');
+    const heroThreeCanvas = document.getElementById('heroThreeCanvas');
 
-      const moveOrbitSparks = time => {
-        orbitSparks.forEach((spark, index) => {
-          const angle = time * speed + phases[index % phases.length];
-          spark.style.left = `${50 + Math.cos(angle) * 50}%`;
-          spark.style.top = `${50 + Math.sin(angle) * 50}%`;
-        });
-        requestAnimationFrame(moveOrbitSparks);
+    if (heroThreeWrap && heroThreeCanvas && window.THREE) {
+      const T = window.THREE;
+      const scene = new T.Scene();
+      const camera = new T.PerspectiveCamera(36, 1, 0.1, 100);
+      camera.position.set(0, 0, 8.2);
+
+      const renderer = new T.WebGLRenderer({
+        canvas: heroThreeCanvas,
+        alpha: true,
+        antialias: true
+      });
+      renderer.setClearColor(0x000000, 0);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+
+      const cyan = 0x2aa7c8;
+
+      const stage = new T.Group();
+      const coreGroup = new T.Group();
+      const shardGroup = new T.Group();
+
+      scene.add(stage);
+      stage.add(shardGroup, coreGroup);
+
+      const edgeMaterial = new T.MeshBasicMaterial({
+        color: cyan,
+        transparent: true,
+        opacity: .92,
+        blending: T.NormalBlending,
+        depthWrite: false
+      });
+      const glowEdgeMaterial = new T.MeshBasicMaterial({
+        color: cyan,
+        transparent: true,
+        opacity: .08,
+        blending: T.NormalBlending,
+        depthWrite: false
+      });
+      const edgeUnitGeometry = new T.CylinderGeometry(1, 1, 1, 7, 1);
+      const edgeUp = new T.Vector3(0, 1, 0);
+
+      const createSolidEdges = (geometry, radius, material) => {
+        const group = new T.Group();
+        const edges = new T.EdgesGeometry(geometry, 1);
+        const positions = edges.attributes.position;
+
+        for (let i = 0; i < positions.count; i += 2) {
+          const start = new T.Vector3().fromBufferAttribute(positions, i);
+          const end = new T.Vector3().fromBufferAttribute(positions, i + 1);
+          const direction = end.clone().sub(start);
+          const length = direction.length();
+
+          if (length <= 0) continue;
+
+          const edge = new T.Mesh(edgeUnitGeometry, material);
+          edge.position.copy(start).add(end).multiplyScalar(.5);
+          edge.quaternion.setFromUnitVectors(edgeUp, direction.normalize());
+          edge.scale.set(radius, length, radius);
+          group.add(edge);
+        }
+
+        return group;
       };
 
-      requestAnimationFrame(moveOrbitSparks);
+      const coreGeometry = new T.IcosahedronGeometry(1.62, 1);
+      const core = createSolidEdges(coreGeometry, .018, edgeMaterial);
+      const coreGlow = createSolidEdges(coreGeometry, .034, glowEdgeMaterial);
+      coreGroup.add(coreGlow, core);
+
+      const shardGeometries = [
+        new T.TetrahedronGeometry(.24, 0),
+        new T.OctahedronGeometry(.22, 0),
+        new T.IcosahedronGeometry(.2, 0)
+      ];
+      const shardSeeds = [
+        { radius: 2.2, depth: .26, phase: .15, speed: .48, scale: .78, tilt: .08 },
+        { radius: 2.34, depth: .22, phase: .95, speed: .54, scale: .72, tilt: -.1 },
+        { radius: 2.46, depth: .28, phase: 1.7, speed: .42, scale: .68, tilt: .12 },
+        { radius: 2.26, depth: .24, phase: 2.45, speed: .5, scale: .76, tilt: -.07 },
+        { radius: 2.4, depth: .3, phase: 3.18, speed: .46, scale: .66, tilt: .1 },
+        { radius: 2.18, depth: .2, phase: 3.95, speed: .56, scale: .7, tilt: -.12 },
+        { radius: 2.32, depth: .24, phase: 4.7, speed: .49, scale: .78, tilt: .06 },
+        { radius: 2.24, depth: .22, phase: 5.45, speed: .52, scale: .68, tilt: -.08 }
+      ];
+      const shards = shardSeeds.map((seed, index) => {
+        const shard = new T.Group();
+        const geometry = shardGeometries[index % shardGeometries.length];
+        shard.add(
+          createSolidEdges(geometry, .017, glowEdgeMaterial),
+          createSolidEdges(geometry, .01, edgeMaterial)
+        );
+        shard.rotation.set(seed.phase, seed.phase * .7, seed.phase * 1.18);
+        shard.scale.setScalar(seed.scale);
+        shard.userData = {
+          ...seed,
+          spin: .22 + (index % 5) * .06
+        };
+        shardGroup.add(shard);
+        return shard;
+      });
+
+      const resizeHeroThree = () => {
+        const rect = heroThreeWrap.getBoundingClientRect();
+        const width = Math.max(1, rect.width);
+        const height = Math.max(1, rect.height);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      };
+
+      const updateHeroCrystals = elapsed => {
+        core.rotation.x = elapsed * .16;
+        core.rotation.y = elapsed * .22;
+        coreGlow.rotation.copy(core.rotation);
+
+        shards.forEach(shard => {
+          const angle = elapsed * shard.userData.speed + shard.userData.phase;
+          const depthWave = Math.sin(angle + shard.userData.phase * .35);
+          const orbitY = Math.sin(angle) * shard.userData.radius;
+          const orbitZ = depthWave * shard.userData.depth + Math.cos(angle) * shard.userData.radius * shard.userData.tilt;
+
+          shard.position.x = Math.cos(angle) * shard.userData.radius;
+          shard.position.y = orbitY;
+          shard.position.z = orbitZ;
+          shard.scale.setScalar(shard.userData.scale * (1 + (depthWave + 1) * .025));
+          shard.rotation.x += shard.userData.spin * .008;
+          shard.rotation.y += shard.userData.spin * .011;
+        });
+
+        stage.rotation.y = Math.sin(elapsed * .18) * .08;
+        stage.rotation.x = Math.cos(elapsed * .16) * .035;
+      };
+
+      resizeHeroThree();
+
+      if (window.ResizeObserver) {
+        const observer = new ResizeObserver(resizeHeroThree);
+        observer.observe(heroThreeWrap);
+      } else {
+        window.addEventListener('resize', resizeHeroThree, { passive: true });
+      }
+
+      if (reduceMotion) {
+        updateHeroCrystals(0);
+        renderer.render(scene, camera);
+      } else {
+        const clock = new T.Clock();
+        const renderHeroThree = () => {
+          const elapsed = clock.getElapsedTime();
+
+          updateHeroCrystals(elapsed);
+
+          renderer.render(scene, camera);
+          requestAnimationFrame(renderHeroThree);
+        };
+
+        requestAnimationFrame(renderHeroThree);
+      }
     }
 
     /* ══════════════════════════════════════

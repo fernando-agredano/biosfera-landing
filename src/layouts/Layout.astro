@@ -821,7 +821,10 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     .hero-right { order: -1; }
     .hero-sub { align-items: center; text-align: center; }
     .hero-sub-glow { align-items: center; }
-    .hero-cards { display: none; }
+    .hero-cards { justify-content: center; gap: .5rem; }
+    .hero-card { padding: .65rem .85rem; min-width: 80px; }
+    .hero-card-value { font-size: clamp(1rem, 4vw, 1.3rem); }
+    .hero-card-label { font-size: clamp(.38rem, 1.6vw, .46rem); }
     .hero-logo { width: clamp(108px, 18vw, 136px); height: clamp(108px, 18vw, 136px); }
     .logo-orbit { --orbit-size: clamp(320px, 64vw, 440px); }
     .gallery-grid { grid-template-columns: 1fr; }

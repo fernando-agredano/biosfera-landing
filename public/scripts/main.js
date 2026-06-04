@@ -213,8 +213,6 @@ gsap.registerPlugin(ScrollTrigger);
         stage.rotation.x = Math.cos(elapsed * .16) * .035;
       };
 
-      resizeHeroThree();
-
       if (window.ResizeObserver) {
         const observer = new ResizeObserver(resizeHeroThree);
         observer.observe(heroThreeWrap);
@@ -222,22 +220,23 @@ gsap.registerPlugin(ScrollTrigger);
         window.addEventListener('resize', resizeHeroThree, { passive: true });
       }
 
-      if (reduceMotion) {
-        updateHeroCrystals(0);
-        renderer.render(scene, camera);
-      } else {
-        const clock = new T.Clock();
-        const renderHeroThree = () => {
-          const elapsed = clock.getElapsedTime();
+      requestAnimationFrame(() => {
+        resizeHeroThree();
 
-          updateHeroCrystals(elapsed);
-
+        if (reduceMotion) {
+          updateHeroCrystals(0);
           renderer.render(scene, camera);
+        } else {
+          const clock = new T.Clock();
+          const renderHeroThree = () => {
+            const elapsed = clock.getElapsedTime();
+            updateHeroCrystals(elapsed);
+            renderer.render(scene, camera);
+            requestAnimationFrame(renderHeroThree);
+          };
           requestAnimationFrame(renderHeroThree);
-        };
-
-        requestAnimationFrame(renderHeroThree);
-      }
+        }
+      });
     }
 
     /* ══════════════════════════════════════

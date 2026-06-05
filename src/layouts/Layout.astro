@@ -719,9 +719,18 @@ const { title = 'BIOSFERA — Luz & Sonido' } = Astro.props;
     line-height: 1;
   }
 
+  .foot-logo-img-wrap {
+    display: block;
+    width: 52px;
+    height: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
   .foot-logo-img {
+    display: block;
     width: 52px; height: 52px;
-    object-fit: contain; flex-shrink: 0;
+    object-fit: contain;
+    margin-top: -13px;
     filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(42,167,200,.55));
   }
 
